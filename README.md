@@ -3,7 +3,12 @@
 ocurre cuando un cliente realiza una petici´on a uno de los nodos? ¿Qu´e ocurre cuando uno de los nodos se desconecta?
 ¿La red generada entre los nodos siempre es eficiente? ¿Existe balanceo de carga?
 
-R:Los nodos se conectan como peer to peer, el nodo al que se conecta el cliente actúa como coordinardor entre este y el resto de los nodos buscando los datos relacionados con la petición.
+R:
+-Los nodos se conectan en el cluster como peer to peer.
+-El nodo al que se conecta el cliente actúa como coordinardor entre este y el resto de los nodos buscando los datos relacionados con la petición.
+-Cuando un nodo se desconecta un nodo, otro nodo funcionaría en su lugar con una replica de la información del nodo desconectado.
+-La red generada no necesariamente puede ser eficiente, debido a que se requiere el conocer las queries se van a ejecutar, debido que se puede perjudicar las queries con SELECT dependiendo de la política con que se generan las replicas.
+-Dependiendo de como son implementadas las particiones, si son implementadas como partición aleatoria, si existe balanceo de carga. Por otro lado si es implementada una partición con preservación del orden las claves similiares se ubican muy cerca entre ellas, por lo que no existe una distribución regular entre los nodos.
 
 
 2. Cassandra posee principalmente dos estrategias para mantener redundancia en la replicaci´on de datos. ¿Cu´ales son
