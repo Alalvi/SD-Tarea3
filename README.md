@@ -20,9 +20,18 @@ apropiadamente su respuesta.
 -Utilizaría SimpleStrategy para el caso actual debido a que se requiere implementar un cluster con tres nodos, implementadas de manera local. 
 
 Existe una tercera estrategia para aplicar ne Cassandra, LocalStrategy  es utilizada de manera interna por cassandra, por lo cual las keyspaces son definidas implicitamente. Debido a que en la tarea se requiere tener dos tablas, una maestra y una esclava lo que requiere una keyspace.
+
 Fuente: https://www.geeksforgeeks.org/replication-strategy-in-cassandra/
 
 3. Teniendo en cuenta el contexto del problema ¿Usted cree que la soluci´on propuesta es la correcta? ¿Qu´e ocurre
 cuando se quiere escalar en la soluci´on? ¿Qu´e mejoras implementar´ıa? Oriente su respuesta hacia el Sharding (la
 replicaci´on/distribuci´on de los datos) y comente una estrategia que podr´ıa seguir para ordenar los datos.
+
+R:
+-En el contexto actual del problema, si la solución propuesta es correcta.
+-En el caso de que se requiera escalar la solución, esta empezaría a ser menos eficiente.
+-Cambiaría la estrategia a NetworkTopologyStrategy, debido a que a medida que deben adicionarse nodos, mantener todos los nodos dentro de el mismo centro de datos lo haría propenso a caerse al perder este centro. Por otro lado una vez elegida esta estrategia, dependiendo del tamaño de infomración administrada, la fragmentación de datos sería necesaria, para lo cual implementaría una partición tipo Murmur3partitioner el cual es 3 a 5 veces más veloz que RandomPartitioner, y a diferencia de la partición ByteOrderedPartitioner
+la cual posee grandes problemas como el balanceo de carga debe ser manual, o la escritura secuancial de filas en un intervalo es asignado a un solo nodo.
+
+Fuente:https://docs.datastax.com/en/archived/cassandra/3.0/cassandra/architecture/archTOC.html
 
